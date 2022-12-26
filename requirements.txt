@@ -1,0 +1,1 @@
+python-keycloak==2.6.1

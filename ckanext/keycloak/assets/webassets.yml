@@ -1,0 +1,14 @@
+# keycloak-js:
+#   filter: rjsmin
+#   output: ckanext-keycloak/%(version)s-keycloak.js
+#   contents:
+#     - js/keycloak.js
+#   extra:
+#     preload:
+#       - base/main
+
+# keycloak-css:
+#   filter: cssrewrite
+#   output: ckanext-keycloak/%(version)s-keycloak.css
+#   contents:
+#     - css/keycloak.css
