@@ -1,2 +1,3 @@
 python-keycloak==2.6.1
-python-keycloak-client
+python-keycloak-client>=0.2.0
+
