@@ -74,7 +74,7 @@ Configuration settings to run the extension
 To install ckanext-keycloak for development, activate your CKAN virtualenv and
 do:
 
-    git clone https://github.com/tino097/ckanext-keycloak.git
+    git clone https://github.com/keitaroinc/ckanext-keycloak.git
     cd ckanext-keycloak
     python setup.py develop
     pip install -r dev-requirements.txt
