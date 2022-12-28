@@ -38,16 +38,17 @@ Suggested values:
 To install ckanext-keycloak:
 
 1. Activate your CKAN virtual environment, for example:
-
-     . /usr/lib/ckan/default/bin/activate
+    ```
+    . /usr/lib/ckan/default/bin/activate
+    ```
 
 2. Clone the source and install it on the virtualenv
-
-    git clone https://github.com/tino097/ckanext-keycloak.git
+    ```
+    git clone https://github.com/kitaroinc/ckanext-keycloak.git
     cd ckanext-keycloak
     pip install -e .
 	pip install -r requirements.txt
-
+    ```
 3. Add `keycloak` to the `ckan.plugins` setting in your CKAN
    config file (by default the config file is located at
    `/etc/ckan/default/ckan.ini`).
@@ -61,12 +62,12 @@ To install ckanext-keycloak:
 
 Configuration settings to run the extension
 
-```
-ckan.sso.keycloak_url = https://auth.sproutopencontent.com/
-ckan.sso.keycloak_realm = sprout
-ckan.sso.keycloak_client_id = sprout-client
-ckan.sso.redirect_uri = http://localhost:5000/user/sso_login
-```
+    ```
+    ckan.sso.keycloak_url = https://auth.sproutopencontent.com/
+    ckan.sso.keycloak_realm = sprout
+    ckan.sso.keycloak_client_id = sprout-client
+    ckan.sso.redirect_uri = http://localhost:5000/user/sso_login
+    ```
 
 ## Developer installation
 
