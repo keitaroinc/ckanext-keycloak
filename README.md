@@ -62,14 +62,11 @@ To install ckanext-keycloak:
 Configuration settings to run the extension
 
 ```
-
-
-**TODO:** Document any optional config settings here. For example:
-
-	# The minimum number of hours to wait before re-checking a resource
-	# (optional, default: 24).
-	ckanext.keycloak.some_setting = some_default_value
-
+ckan.sso.keycloak_url = https://auth.sproutopencontent.com/
+ckan.sso.keycloak_realm = sprout
+ckan.sso.keycloak_client_id = sprout-client
+ckan.sso.redirect_uri = http://localhost:5000/user/sso_login
+```
 
 ## Developer installation
 
