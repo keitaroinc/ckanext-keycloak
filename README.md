@@ -1,4 +1,4 @@
-[![Tests](https://github.com/tino097/ckanext-keycloak/workflows/Tests/badge.svg?branch=main)](https://github.com/tino097/ckanext-keycloak/actions)
+[![Tests](https://github.com/keitaroinc/ckanext-keycloak/workflows/Tests/badge.svg?branch=main)](https://github.com/keitaroinc/ckanext-keycloak/actions)
 
 # ckanext-keycloak
 
@@ -59,7 +59,10 @@ To install ckanext-keycloak:
 
 ## Config settings
 
-None at present
+Configuration settings to run the extension
+
+```
+
 
 **TODO:** Document any optional config settings here. For example:
 
