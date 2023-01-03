@@ -2,13 +2,15 @@ import logging
 
 from flask import Blueprint, session
 from ckan.plugins import toolkit as tk
-from ckanext.keycloak.keycloak import get_keycloak_client, get_auth_url
+from ckanext.keycloak.keycloak import get_keycloak_client, get_auth_url, get_keycloak_admin
 
+import ckanext.keycloak.helpers as helpers
 log = logging.getLogger(__name__)
 
 keycloak = Blueprint('keycloak', __name__, url_prefix='/user')
 
-
+def social_login():
+    return tk.render('user/snippets/social_login.html')
 def _create_user(user_dict):
     context = {
         u'ignore_auth': True,
@@ -26,9 +28,13 @@ def sso():
     client_id = tk.config.get('ckan.sso.keycloak_client_id', None)
     realm_name = tk.config.get('ckan.sso.keycloak_realm', 'sprout')
     redirect_uri = tk.config.get('ckan.sso.redirect_uri', None)
+    client_secret = tk.config.get('ckan.sso.keycloak_client_secret', None)
     
     client = None
     auth_url = None
+    breakpoint()
+    # admin = get_keycloak_admin(server_url, client_id, realm_name, client_secret)
+    # idps = admin.get_idps()
     try:
         client = get_keycloak_client(server_url, client_id, realm_name)
     except Exception as e:
@@ -53,7 +59,7 @@ def sso_login():
         user_dict = {
             'name': data['user'],
             'email': data['email'],
-            'password': _genreate_password(),
+            'password': helpers.genreate_password(),
             'fullname': data['fullname'],
         }
         _create_user(user_dict)
@@ -64,6 +70,7 @@ def sso_login():
 
 keycloak.add_url_rule('/sso', view_func=sso)
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
+keycloak.add_url_rule('/social_login', view_func=social_login)
 
 def get_blueprint():
     return keycloak

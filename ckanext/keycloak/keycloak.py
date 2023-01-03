@@ -1,5 +1,5 @@
 import logging
-from keycloak import KeycloakOpenID
+from keycloak import KeycloakOpenID, KeycloakAdmin
 
 log = logging.getLogger(__name__)
 
@@ -18,3 +18,15 @@ def get_user_info(client, token):
 
 def get_user_groups(client, token):
     return client.userinfo(token).get('groups', [])
+
+def get_keycloak_admin(server_url, client_id, realm_name, client_secret):
+    return KeycloakAdmin(
+        username="admin",
+        password="h6dnf#zY8n3Z4#Y",
+        server_url=server_url+'/auth',
+        client_id=client_id,
+        realm_name="master",
+        user_realm_name=realm_name,
+        client_secret_key=client_secret,
+        verify=True
+    )
