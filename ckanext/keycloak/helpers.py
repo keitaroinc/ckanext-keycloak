@@ -9,6 +9,10 @@ import ckan.model as model
 import ckan.plugins.toolkit as tk
 import ckan.lib.dictization.model_dictize as model_dictize
 
+
+log = logging.getLogger(__name__)
+
+
 def generate_password():
     alphabet = string.ascii_letters + string.digits
     return ''.join(secrets.choice(alphabet) for _ in range(8))
@@ -44,13 +48,15 @@ def _get_user_by_email(email):
         u'keep_email': True,
         u'model': model,
     }
+    breakpoint()
     user = model.User.by_email(email)
     if user and isinstance(user, list):
         user = user[0]
 
     activate_user_if_deleted(user)
 
-    return model_dictize.user_dictize(user, context)
+    return model_dictize.user_dictize(user, context) if user else False
+
 
 def activate_user_if_deleted(user):
     u'''Reactivates deleted user.'''
