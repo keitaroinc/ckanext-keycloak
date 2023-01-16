@@ -48,7 +48,6 @@ def _get_user_by_email(email):
         u'keep_email': True,
         u'model': model,
     }
-    breakpoint()
     user = model.User.by_email(email)
     if user and isinstance(user, list):
         user = user[0]
