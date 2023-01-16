@@ -3,11 +3,11 @@ import string
 import re
 import random
 import secrets
-from six import text_type
-from six.moves.urllib.parse import urlparse
+
 
 import ckan.model as model
-
+import ckan.plugins.toolkit as tk
+import ckan.lib.dictization.model_dictize as model_dictize
 
 def generate_password():
     alphabet = string.ascii_letters + string.digits
@@ -30,3 +30,33 @@ def ensure_unique_username_from_email(email):
             return name
 
     return cleaned_localpart
+
+def process_user(userinfo):
+    context = {
+        u'ignore_auth': True,
+    }
+    return _get_user_by_email(userinfo.get('email')) or tk.get_action(
+        u'user_create'
+    )(context, userinfo)
+
+def _get_user_by_email(email):
+    context = {
+        u'keep_email': True,
+        u'model': model,
+    }
+    user = model.User.by_email(email)
+    if user and isinstance(user, list):
+        user = user[0]
+
+    activate_user_if_deleted(user)
+
+    return model_dictize.user_dictize(user, context)
+
+def activate_user_if_deleted(user):
+    u'''Reactivates deleted user.'''
+    if not user:
+        return
+    if user.is_deleted():
+        user.activate()
+        user.commit()
+        log.info(u'User {} reactivated'.format(user.name))
