@@ -62,8 +62,9 @@ def sso_login():
         user = helpers.process_user(user_dict)
         g.userobj = model.User.get(user['name'])
         g.user = user
+        user_id = "{},1".format(user.get('id'))
         response = tk.redirect_to(tk.url_for('dashboard.index'))
-        set_repoze_user(user.get('name'), response)
+        set_repoze_user(user_id, response)
        
         log.info(u'User {0}<{1}> logged in successfully'.format(g.userobj.name, g.userobj.email))
         return response
