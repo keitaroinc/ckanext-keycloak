@@ -6,7 +6,7 @@ from ckan.plugins import toolkit as tk
 import ckan.lib.helpers as h
 import ckan.model as model
 from ckan.common import g
-from ckan.views.user import set_repoze_user
+from ckan.views.user import set_repoze_user, RequestResetView
 
 from ckanext.keycloak.keycloak import KeycloakClient
 import ckanext.keycloak.helpers as helpers
@@ -86,12 +86,12 @@ def reset_password():
 
     if not user:
         log.info(u'User requested reset link for unknown user: {}'.format(email))
-
+        return tk.redirect_to(tk.url_for('user.login'))
     user_extras = user[0].plugin_extras
-    if user_extras.get('idp', None) == 'google':
+    if user_extras and user_extras.get('idp', None) == 'google':
         log.info(u'User requested reset link for google user: {}'.format(email))
         return tk.abort(400, "Cannot reset password for corporate email authentication")
-    return tk.redirect_to(tk.url_for('user.request_reset'))
+    return RequestResetView().post()
 
 
 keycloak.add_url_rule('/sso', view_func=sso)
