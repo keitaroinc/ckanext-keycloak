@@ -3,6 +3,7 @@ import logging
 from flask import Blueprint, session
 
 from ckan.plugins import toolkit as tk
+import ckan.lib.helpers as h
 import ckan.model as model
 from ckan.common import g
 from ckan.views.user import set_repoze_user
@@ -58,6 +59,9 @@ def sso_login():
             'email': userinfo['email'],
             'password': helpers.generate_password(),
             'fullname': userinfo['name'],
+            'plugin_extras': {
+                'idp': 'google'
+            }
         }
         user = helpers.process_user(user_dict)
         g.userobj = model.User.get(user['name'])
@@ -70,9 +74,29 @@ def sso_login():
         return response
     return tk.redirect_to(tk.url_for('user.login'))
 
+def reset_password():
+    email = tk.request.form.get('user', None)
+
+    if '@' not in email:
+        log.info(f'User requested reset link for invalid email: {email}')
+        h.flash_error('Invalid email address')
+        return tk.redirect_to(tk.url_for('user.request_reset'))
+
+    user = model.User.by_email(email)   
+
+    if not user:
+        log.info(u'User requested reset link for unknown user: {}'.format(email))
+
+    user_extras = user[0].plugin_extras
+    if user_extras.get('idp', None) == 'google':
+        log.info(u'User requested reset link for google user: {}'.format(email))
+        return tk.abort(400, "Cannot reset password for corporate email authentication")
+    return tk.redirect_to(tk.url_for('user.request_reset'))
+
 
 keycloak.add_url_rule('/sso', view_func=sso)
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
+keycloak.add_url_rule('/reset_password', view_func=reset_password, methods=['POST'])
 
 def get_blueprint():
     return keycloak
