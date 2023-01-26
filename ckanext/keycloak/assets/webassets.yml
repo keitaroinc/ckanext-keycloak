@@ -7,8 +7,8 @@
 #     preload:
 #       - base/main
 
-# keycloak-css:
-#   filter: cssrewrite
-#   output: ckanext-keycloak/%(version)s-keycloak.css
-#   contents:
-#     - css/keycloak.css
+keycloak-css:
+  filter: cssrewrite
+  output: ckanext-keycloak/%(version)s-keycloak.css
+  contents:
+    - css/keycloak.css

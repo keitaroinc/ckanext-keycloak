@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 {% ckan_extends %}
 {% block login_button %}
- <a class="btn btn-default" href="{{ h.url_for('keycloak.sso') }}"><img src="https://developers-dot-devsite-v2-prod.appspot.com/identity/sign-in/g-normal.png"></img> {{ _('Sign in with Google') }}</a>
+ <button class="gbtn btn btn-default" href="{{ h.url_for('keycloak.sso') }}">{{ _('Sign in with Google') }}</buton>
  <button class="btn btn-primary" type="submit">{{ _('Login') }}</button>
  
 {% endblock %}
