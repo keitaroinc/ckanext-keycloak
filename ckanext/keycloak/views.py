@@ -90,7 +90,8 @@ def reset_password():
     user_extras = user[0].plugin_extras
     if user_extras and user_extras.get('idp', None) == 'google':
         log.info(u'User requested reset link for google user: {}'.format(email))
-        return tk.abort(400, "Cannot reset password for corporate email authentication")
+        h.flash_error('Invalid email address')
+        return tk.redirect_to(tk.url_for('user.login'))
     return RequestResetView().post()
 
 
