@@ -6,16 +6,32 @@ ckanext-keycloak is an extension for CKAN, that adds Single Sign On options for 
 
 ## Requirements
 
-**TODO:** For example, you might want to mention here which versions of CKAN this
-extension works with.
+**Note**
+This extension requires users to have set up a Keycloak server and have a client set up for CKAN. For more information on how to set up Keycloak, please refer to the [Keycloak documentation](https://www.keycloak.org/documentation.html).
 
-If your extension works across different versions you can add the following table:
+For the development, the following requirements must be met:
+
+* Create a realm in Keycloak
+* Create a client in Keycloak
+* Set the client's `Valid Redirect URIs` to `http://localhost:5000/user/sso_login`
+* Configure identity providers in Keycloak (e.g. Google, GitHub, etc.)
+
+If you want to use multiple identity providers, you need to set the `first_login_broker` as authentication workflow. This workflow will redirect the user to the login page of the identity provider. After the
+user has logged in, the user will be logged in to CKAN.
+
+
+## Compatibility
 
 Compatibility with core CKAN versions:
 
 | CKAN version    | Compatible?   |
 | --------------- | ------------- |
 | 2.9             | YES    |
+| --------------- | ------------- |
+| 2.10            | YES    |
+| --------------- | ------------- |
+| master            | YES    |
+| --------------- | ------------- |
 
 
 ## Installation
