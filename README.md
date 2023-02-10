@@ -2,8 +2,7 @@
 
 # ckanext-keycloak
 
-**TODO:** Put a description of your extension here:  What does it do? What features does it have? Consider including some screenshots or embedding a video!
-
+ckanext-keycloak is an extension for CKAN, that adds Single Sign On options for CKAN portals. It enables the users to authenticate with [Keycloack](https://www.keycloak.org/) instead of creating a new user account on CKAN.
 
 ## Requirements
 
@@ -16,24 +15,10 @@ Compatibility with core CKAN versions:
 
 | CKAN version    | Compatible?   |
 | --------------- | ------------- |
-| 2.6 and earlier | not tested    |
-| 2.7             | not tested    |
-| 2.8             | not tested    |
-| 2.9             | not tested    |
-
-Suggested values:
-
-* "yes"
-* "not tested" - I can't think of a reason why it wouldn't work
-* "not yet" - there is an intention to get it working
-* "no"
+| 2.9             | YES    |
 
 
 ## Installation
-
-**TODO:** Add any additional install steps to the list below.
-   For example installing any non-Python dependencies or adding any required
-   config settings.
 
 To install ckanext-keycloak:
 
@@ -63,10 +48,10 @@ To install ckanext-keycloak:
 Configuration settings to run the extension
 
     ```
-    ckan.sso.keycloak_url = https://auth.sproutopencontent.com/
-    ckan.sso.keycloak_realm = sprout
-    ckan.sso.keycloak_client_id = sprout-client
-    ckan.sso.redirect_uri = http://localhost:5000/user/sso_login
+    ckan.sso.keycloak_url = link_to_keycloack_authentication_url
+    ckan.sso.keycloak_realm = realm_name
+    ckan.sso.keycloak_client_id = client_id
+    ckan.sso.redirect_uri = redirect_url
     ```
 
 ## Developer installation
