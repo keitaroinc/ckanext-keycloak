@@ -29,3 +29,25 @@
     .gbtn:hover {
       background-color: #e6e6e6;
     }
+
+    .register-google{ 
+      position: relative;
+    }
+
+    .google-button{
+      position: absolute;
+      right: 17%;
+      bottom: 0%;
+    }
+
+    @media only screen and (max-width: 900px) {
+
+        .register-google{
+          position: inherit;
+        }
+    
+        .google-button{
+          position: inherit;
+          margin-top: 1rem;
+        }
+    }
