@@ -16,11 +16,11 @@ log = logging.getLogger(__name__)
 keycloak = Blueprint('keycloak', __name__, url_prefix='/user')
 
 
-server_url = tk.config.get('ckan.sso.keycloak_url', None)
-client_id = tk.config.get('ckan.sso.keycloak_client_id', None)
-realm_name = tk.config.get('ckan.sso.keycloak_realm', 'sprout')
-redirect_uri = tk.config.get('ckan.sso.redirect_uri', None)
-client_secret = tk.config.get('ckan.sso.keycloak_client_secret', None)
+server_url = tk.config.get('sso.keycloak_url', 'https://auth.sproutopencontent.com/')
+client_id = tk.config.get('sso.keycloak_client_id', 'sprout-client')
+realm_name = tk.config.get('sso.keycloak_realm', 'sprout')
+redirect_uri = tk.config.get('sso.redirect_uri', None)
+client_secret = tk.config.get('sso.keycloak_client_secret', None)
 client = KeycloakClient(server_url, client_id, realm_name, client_secret)
 
 
