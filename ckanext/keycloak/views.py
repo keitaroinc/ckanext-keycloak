@@ -1,5 +1,3 @@
-# 
-
 import logging
 from flask import Blueprint, session
 from ckan.plugins import toolkit as tk
@@ -11,14 +9,18 @@ from ckanext.keycloak.keycloak import KeycloakClient
 import ckanext.keycloak.helpers as helpers
 from urllib.parse import urlencode
 import ckan.lib.dictization as dictization
+from os import environ
 
 log = logging.getLogger(__name__)
+
 keycloak = Blueprint('keycloak', __name__, url_prefix='/user')
-server_url = "https://auth.sproutopencontent.com/"
-client_id = 'sprout-client'
-realm_name = 'sprout'
-redirect_uri = 'http://localhost:5000/user/sso_login'
-client_secret_key = 'Y3Sn2ilmQWP9zaS8SwNqbKbVE6Q9yUIu'
+
+
+server_url = tk.config.get('ckanext.keycloak.server_url', environ.get('CKANEXT__KEYCLOAK__SERVER_URL'))
+client_id = tk.config.get('ckanext.keycloak.client_id', environ.get('CKANEXT__KEYCLOAK__CLIENT_ID'))
+realm_name = tk.config.get('ckanext.keycloak.realm_name', environ.get('CKANEXT__KEYCLOAK__REALM_NAME'))
+redirect_uri = tk.config.get('ckanext.keycloak.redirect_uri', environ.get('CKANEXT__KEYCLOAK__REDIRECT_URI'))
+client_secret_key = tk.config.get('ckanext.keycloak.client_secret_key', environ.get('CKANEXT__KEYCLOAK__CLIENT_SECRET_KEY'))
 
 client = KeycloakClient(server_url, client_id, realm_name, client_secret_key)
 
