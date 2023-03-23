@@ -45,7 +45,7 @@ def _log_user_into_ckan(resp):
         return
 
     if tk.check_ckan_version(min_version="2.9.6"):
-        user_id = "{},1".format(g.userobj.id)
+        user_id = "{},1".format(g.userobj.get('id'))
     else:
         user_id = g.userobj['name']
     set_repoze_user(user_id, resp)
