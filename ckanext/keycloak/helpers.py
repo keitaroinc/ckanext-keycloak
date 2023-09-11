@@ -7,7 +7,6 @@ import secrets
 
 import ckan.model as model
 import ckan.plugins.toolkit as tk
-import ckan.lib.dictization.model_dictize as model_dictize
 
 
 log = logging.getLogger(__name__)
@@ -36,26 +35,16 @@ def ensure_unique_username_from_email(email):
     return cleaned_localpart
 
 def process_user(userinfo):
-    context = {
-        u'ignore_auth': True,
-    }
-    return _get_user_by_email(userinfo.get('email')) or tk.get_action(
-        u'user_create'
-    )(context, userinfo)
+    return _get_user_by_email(userinfo.get('email')) or _create_user(userinfo)
 
 def _get_user_by_email(email):
-    context = {
-        u'keep_email': True,
-        u'model': model,
-    }
     user = model.User.by_email(email)
     if user and isinstance(user, list):
         user = user[0]
 
     activate_user_if_deleted(user)
-
-    return model_dictize.user_dictize(user, context) if user else False
-
+    
+    return user
 
 def activate_user_if_deleted(user):
     u'''Reactivates deleted user.'''
@@ -65,3 +54,13 @@ def activate_user_if_deleted(user):
         user.activate()
         user.commit()
         log.info(u'User {} reactivated'.format(user.name))
+
+def _create_user(userinfo):
+    context = {
+        u'ignore_auth': True,
+    }
+    created_user_dict = tk.get_action(
+        u'user_create'
+    )(context, userinfo)
+    
+    return _get_user_by_email(created_user_dict['email'])
