@@ -1,5 +1,5 @@
 import logging
-from flask import Blueprint, session
+from flask import Blueprint
 from ckan.plugins import toolkit as tk
 import ckan.lib.helpers as h
 import ckan.model as model
@@ -7,8 +7,6 @@ from ckan.common import g
 from ckan.views.user import set_repoze_user, RequestResetView
 from ckanext.keycloak.keycloak import KeycloakClient
 import ckanext.keycloak.helpers as helpers
-from urllib.parse import urlencode
-import ckan.lib.dictization as dictization
 from os import environ
 
 log = logging.getLogger(__name__)
@@ -24,16 +22,6 @@ client_secret_key = tk.config.get('ckanext.keycloak.client_secret_key', environ.
 
 client = KeycloakClient(server_url, client_id, realm_name, client_secret_key)
 
-def _create_user(user_dict):
-    context = {
-        u'ignore_auth': True,
-    }
-    try:
-        return tk.get_action(u'user_create')(context, user_dict)
-    except tk.ValidationError as e:
-        error_message = (e.error_summary or e.message or e.error_dict)
-        tk.abort(400, error_message)
-
 def _log_user_into_ckan(resp):
     """ Log the user into different CKAN versions.
     CKAN 2.10 introduces flask-login and login_user method.
@@ -43,16 +31,16 @@ def _log_user_into_ckan(resp):
     """
     if tk.check_ckan_version(min_version="2.10"):
         from ckan.common import login_user
-        login_user(g.userobj)
+        login_user(g.user_obj)
         return
 
     if tk.check_ckan_version(min_version="2.9.6"):
-        user_id = "{},1".format(g.userobj.get('id'))
+        user_id = "{},1".format(g.user_obj.id)
     else:
-        user_id = g.userobj['name']
+        user_id = g.user
     set_repoze_user(user_id, resp)
 
-    log.info(u'User {0}<{1}> logged in successfully'.format(g.userobj['name'], g.userobj['email']))
+    log.info(u'User {0}<{1}> logged in successfully'.format(g.user_obj.name, g.user_obj.email))
 
 def sso():
     log.info("SSO Login")
@@ -80,14 +68,12 @@ def sso_login():
             }
         }
         context = {"model": model, "session": model.Session}
-        user = helpers.process_user(user_dict)
-        g.user = user
-        g.userobj = user
-        context['user'] = user
-        context['auth_user_obj'] = g.userobj
-        user_id = "{}".format(user.get('name'))
+        g.user_obj = helpers.process_user(user_dict)
+        g.user = g.user_obj.name
+        context['user'] = g.user
+        context['auth_user_obj'] = g.user_obj
 
-        response = tk.redirect_to(tk.url_for('user.me',context))
+        response = tk.redirect_to(tk.url_for('user.me', context))
 
         _log_user_into_ckan(response)
         log.info("Logged in success")
