@@ -61,7 +61,7 @@ def sso_login():
 
     is_user_ckan_admin = 'ckan_admin' in usergroups
 
-    if userinfo and is_user_ckan_admin:  # only log in if admin
+    if userinfo and is_user_ckan_admin:  # only login if admin
         user_dict = {
             'name': helpers.ensure_unique_username_from_email(userinfo['preferred_username']),
             'email': userinfo['email'],
@@ -109,6 +109,11 @@ def reset_password():
 
 # This endpoint will take care of auto-login
 def sso_autologin():
+    # Check for arguments in the URL to determine the further logic.
+    # If there was a redirect without any arguments, make call to keycloak to check if logged in there.
+    #     Keycloak will return back with 2 options:
+    #       a. if there was a redirect from keycloak with 'code' argument, then complete sso (create user and/or login)
+    #       b. if there was a redirect from keycloak with 'error' argument, it means keycloak login was not done yet
     data = tk.request.args
 
     if len(data):
