@@ -64,9 +64,9 @@ To install ckanext-keycloak:
 Configuration settings to run the extension
 
     ```
-    ckanext.keycloak_url = link_to_keycloack_authentication_url
-    ckanext.keycloak.client_id = realm_name
-    ckanext.keycloak.realm_name = client_id
+    ckanext.keycloak.server_url = link_to_keycloack_authentication_url
+    ckanext.keycloak.client_id = client_id
+    ckanext.keycloak.realm_name = realm_name
     ckanext.keycloak.redirect_uri = redirect_url
     ckanext.keycloak.client_secret_key = client_secret_key
     ```
