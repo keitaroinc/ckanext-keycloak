@@ -17,9 +17,6 @@
 
       {{ form | safe }}
 
-      {% block login_button %}
- <a class="gbtn btn btn-default google-button" href="{{ h.url_for('keycloak.sso') }}">{{ _('Sign in with Google') }}</a>
-    {% endblock %}
 </div>
 
 
