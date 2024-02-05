@@ -75,3 +75,10 @@ def button_style():
 
     return tk.config.get('ckanext.keycloak.button_style',
                          environ.get('CKANEXT__KEYCLOAK__BUTTON_STYLE'))
+
+
+def enable_internal_login():
+
+    return tk.asbool(tk.config.get(
+        'ckanext.keycloak.enable_ckan_internal_login',
+        environ.get('CKANEXT__KEYCLOAK__CKAN_INTERNAL_LOGIN')))

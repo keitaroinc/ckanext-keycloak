@@ -25,4 +25,5 @@ class KeycloakPlugin(plugins.SingletonPlugin):
     def get_helpers(self):
         return {
             'button_style': h.button_style,
+            'enable_internal_login': h.enable_internal_login,
         }

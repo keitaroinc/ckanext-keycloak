@@ -26,7 +26,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 {% else %}
     <a class="btn btn-primary" href="{{ h.url_for('keycloak.sso') }}">{{ _('SSO') }}</a>
 {% endif %}
- 
-<button class="btn btn-primary" type="submit">{{ _('Login') }}</button>
+
+{% set enable_ckan_login = h.enable_internal_login() %}
+{% if enable_ckan_login %}
+    <button class="btn btn-primary" type="submit">{{ _('Login') }}</button>
+{% else%}
+{% endif %}
  
 {% endblock %}
