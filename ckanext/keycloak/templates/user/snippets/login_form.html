@@ -17,7 +17,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 {% ckan_extends %}
 {% block login_button %}
- <a class="gbtn btn btn-default" href="{{ h.url_for('keycloak.sso') }}">{{ _('Sign in with Google') }}</a>
- <button class="btn btn-primary" type="submit">{{ _('Login') }}</button>
+
+{% set button_style = h.button_style() %}
+{% if button_style == "google" %}
+    <a class="gbtn btn btn-default" href="{{ h.url_for('keycloak.sso') }}">{{ _('Sign in with Google') }}</a>
+{% elif  button_style == "azure" %}
+    <a class="azurebtn btn btn-defaul" href="{{ h.url_for('keycloak.sso') }}">{{ _('Sign in with AzureAD') }}</a>
+{% else %}
+    <a class="btn btn-primary" href="{{ h.url_for('keycloak.sso') }}">{{ _('SSO') }}</a>
+{% endif %}
+ 
+<button class="btn btn-primary" type="submit">{{ _('Login') }}</button>
  
 {% endblock %}

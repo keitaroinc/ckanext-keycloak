@@ -69,6 +69,7 @@ Configuration settings to run the extension
     ckanext.keycloak.realm_name = realm_name
     ckanext.keycloak.redirect_uri = redirect_url
     ckanext.keycloak.client_secret_key = client_secret_key
+    ckanext.keycloak.button_style = google/azure (if empty it will have the default stile)
     ```
 
 ## Developer installation
