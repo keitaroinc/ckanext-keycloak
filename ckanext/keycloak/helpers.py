@@ -7,6 +7,7 @@ import secrets
 
 import ckan.model as model
 import ckan.plugins.toolkit as tk
+from os import environ
 
 
 log = logging.getLogger(__name__)
@@ -34,8 +35,10 @@ def ensure_unique_username_from_email(email):
 
     return cleaned_localpart
 
+
 def process_user(userinfo):
     return _get_user_by_email(userinfo.get('email')) or _create_user(userinfo)
+
 
 def _get_user_by_email(email):
     user = model.User.by_email(email)
@@ -46,6 +49,7 @@ def _get_user_by_email(email):
     
     return user
 
+
 def activate_user_if_deleted(user):
     u'''Reactivates deleted user.'''
     if not user:
@@ -54,6 +58,7 @@ def activate_user_if_deleted(user):
         user.activate()
         user.commit()
         log.info(u'User {} reactivated'.format(user.name))
+
 
 def _create_user(userinfo):
     context = {
@@ -64,3 +69,16 @@ def _create_user(userinfo):
     )(context, userinfo)
     
     return _get_user_by_email(created_user_dict['email'])
+
+
+def button_style():
+
+    return tk.config.get('ckanext.keycloak.button_style',
+                         environ.get('CKANEXT__KEYCLOAK__BUTTON_STYLE'))
+
+
+def enable_internal_login():
+
+    return tk.asbool(tk.config.get(
+        'ckanext.keycloak.enable_ckan_internal_login',
+        environ.get('CKANEXT__KEYCLOAK__CKAN_INTERNAL_LOGIN')))
