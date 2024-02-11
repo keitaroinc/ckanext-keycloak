@@ -1,4 +1,4 @@
-[![Tests](https://github.com/keitaroinc/ckanext-keycloak/workflows/Tests/badge.svg?branch=main)](https://github.com/keitaroinc/ckanext-keycloak/actions)
+[![Tests](https://github.com/keitaroinc/ckanext-keycloak/workflows/Tests/badge.svg?style=flat)](https://github.com/keitaroinc/ckanext-keycloak/actions/workflows/test.yml)
 
 # ckanext-keycloak
 
