@@ -21,7 +21,6 @@ class KeycloakClient:
         return self.get_keycloak_client().token(grant_type="authorization_code", code=code, redirect_uri=redirect_uri)
 
     def get_user_info(self, token):
-        print (token.get('access_token'))
         return self.get_keycloak_client().userinfo(token.get('access_token'))
 
     def get_user_groups(self, token):
